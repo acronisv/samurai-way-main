@@ -1,8 +1,9 @@
 import React from "react";
+import s from './Profile.module.css'
 
 export const Profile = () => {
     return (
-        <main className="main">
+        <main className={s.main}>
             <div><img src="" alt="avatar"/></div>
             <div>avatar desc</div>
             <div>My posts</div>

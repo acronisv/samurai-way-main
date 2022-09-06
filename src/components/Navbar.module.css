@@ -1,0 +1,8 @@
+.nav {
+    grid-area: n;
+    background: antiquewhite;
+}
+
+.nav-item a{
+    font-size: 20px;
+}
