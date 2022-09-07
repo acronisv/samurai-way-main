@@ -1,10 +1,16 @@
 import React from 'react';
 import s from './Post.module.css'
 
-export const Post = () => {
+type PostPropsType = {
+    message: string
+    likes: number
+}
+
+export const Post = (props: PostPropsType) => {
     return (
         <div>
-            <div className={s.post_item}>Posts</div>
+            <div className={s.post_item}>{props.message}</div>
+            <span>Likes {props.likes}</span>
         </div>
     );
 };
