@@ -10,6 +10,23 @@ type DialogPropsType = {
     name: string
     id: number
 }
+
+const dialogs = [
+    {id: 1, name: 'Walter'},
+    {id: 2, name: 'John'},
+    {id: 3, name: 'Jorge'},
+    {id: 4, name: 'Pete'}
+]
+
+const messages = [
+    {id: 1, message: 'Hello'},
+    {id: 1, message: 'What\'s up?'},
+    {id: 1, message: 'Damn good'},
+]
+
+const dialogsElements = dialogs.map((el) => <Dialog name={el.name} id={el.id}/>)
+const messagesElements = messages.map((el) => (<Message message={el.message}/>))
+
 export const Dialog = (props: DialogPropsType) => {
     return (
         <div className={s.dialogsItem + ' ' + s.dialogsItemActive}>
@@ -28,15 +45,10 @@ export const Dialogs = () => {
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
-                <Dialog name={'Walter'} id={1}/>
-                <Dialog name={'John'} id={2}/>
-                <Dialog name={'Jorge'} id={3}/>
-                <Dialog name={'Pete'} id={4}/>
+                {dialogsElements}
             </div>
             <div className={s.messages}>
-                <Message message={'Hello'}/>
-                <Message message={'What\'s up?'}/>
-                <Message message={'Damn good'}/>
+                {messagesElements}
             </div>
         </div>
     );
