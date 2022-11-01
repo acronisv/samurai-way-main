@@ -1,8 +1,14 @@
 .nav {
     grid-area: n;
-    background: antiquewhite;
+    background: #00da6f;
 }
 
-.nav-item a{
-    font-size: 20px;
+.navItemLink {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.navItemLinkActive {
+    color: #f77470;
+    text-decoration: none;
 }
