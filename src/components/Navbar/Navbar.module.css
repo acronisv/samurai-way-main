@@ -1,6 +1,6 @@
 .nav {
     grid-area: n;
-    background: #00da6f;
+    margin-bottom: 30px;
 }
 
 .navItemLink {
@@ -11,4 +11,8 @@
 .navItemLinkActive {
     color: #f77470;
     text-decoration: none;
+}
+
+.navWrapper {
+    background: #00da6f;
 }

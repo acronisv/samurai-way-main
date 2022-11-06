@@ -8,12 +8,10 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {DialogsType, MessagesType, PostsType} from "./index";
+import {StateType} from "./redux/state";
 
 type AppPropsType = {
-    posts: Array<PostsType>
-    dialogs: Array<DialogsType>
-    messages: Array<MessagesType>
+    state: StateType
 }
 
 const App: FC<AppPropsType> = (props) => {
@@ -23,9 +21,9 @@ const App: FC<AppPropsType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className="app_wrapper_content">
-                        <Route render={()=><Profile posts={props.posts}/>} path='/Profile'/>
-                        {/*<Route component={Dialogs} path='/Dialogs/'/>*/}
-                        <Route render={()=><Dialogs dialogs={props.dialogs} messages={props.messages}/>} path='/Dialogs/'/>
+                    {/*Исправать пропсы на глобальные для каждой страницы */}
+                        <Route render={()=><Profile state={props.state.profilePage}/>} path='/Profile'/>
+                        <Route render={()=><Dialogs state={props.state.dialogsPage}/>} path='/Dialogs/'/>
                         <Route component={News} path='/News'/>
                         <Route component={Music} path='/Music'/>
                         <Route component={Settings} path='/Settings'/>
