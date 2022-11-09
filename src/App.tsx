@@ -11,17 +11,21 @@ import {Settings} from "./components/Settings/Settings";
 import {StateType} from "./redux/state";
 
 type AppPropsType = {
-    state: StateType
+    state: StateType,
+    addPostCallback: (postMessage:string)=>void
 }
 
 const App: FC<AppPropsType> = (props) => {
+
     return (
         <BrowserRouter>
             <div className="app_wrapper">
                 <Header/>
                 <Navbar/>
                 <div className="app_wrapper_content">
-                        <Route render={()=><Profile state={props.state.profilePage}/>} path='/Profile'/>
+                        <Route render={()=><Profile state={props.state.profilePage}
+                                                    addPostCallback={props.addPostCallback}
+                        />} path='/Profile'/>
                         <Route render={()=><Dialogs state={props.state.dialogsPage}/>} path='/Dialogs/'/>
                         <Route component={News} path='/News'/>
                         <Route component={Music} path='/Music'/>

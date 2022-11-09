@@ -49,3 +49,12 @@ export const state: StateType = {
         ]
     }
 }
+
+export const addPost = (postMessage:string) => {
+    const newPost: PostsType = {
+        id: new Date().getTime(),
+        message: postMessage,
+        likes: 0
+    }
+    state.profilePage.posts.push(newPost)
+}
