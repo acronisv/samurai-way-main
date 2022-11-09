@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../render";
+
 export type DialogsType = {
     id: number
     name: string
@@ -57,4 +59,5 @@ export const addPost = (postMessage:string) => {
         likes: 0
     }
     state.profilePage.posts.push(newPost)
+    rerenderEntireTree(state)
 }

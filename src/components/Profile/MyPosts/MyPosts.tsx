@@ -18,8 +18,8 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
     const addPost = () => {
         if (newPostElement.current) {
             props.addPostCallback(newPostElement.current?.value)
+            newPostElement.current.value=''
         }
-        alert(newPostElement.current?.value)
     }
 
     return (
