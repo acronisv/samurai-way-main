@@ -21,7 +21,6 @@ const App: FC<AppPropsType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className="app_wrapper_content">
-                    {/*Исправать пропсы на глобальные для каждой страницы */}
                         <Route render={()=><Profile state={props.state.profilePage}/>} path='/Profile'/>
                         <Route render={()=><Dialogs state={props.state.dialogsPage}/>} path='/Dialogs/'/>
                         <Route component={News} path='/News'/>

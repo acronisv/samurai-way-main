@@ -11,10 +11,17 @@ type MyPostsPropsType = {
 export const MyPosts: FC<MyPostsPropsType> = (props) => {
 
     const postsElements = props.posts.map((el) => (<Post message={el.message} likes={el.likes}/>))
+
+    const newPostElement = React.createRef<HTMLTextAreaElement>()
+
+    const addPost = () => {
+        alert(newPostElement.current?.value)
+    }
+
     return (
         <div>
-            <textarea name="" id=""></textarea>
-            <button>Add post</button>
+            <textarea ref={newPostElement}></textarea>
+            <button onClick={addPost}>Add post</button>
             <div>My posts</div>
             {postsElements}
         </div>
