@@ -12,7 +12,10 @@ import {StateType} from "./redux/state";
 
 type AppPropsType = {
     state: StateType,
-    addPostCallback: (postMessage:string)=>void
+    addPostCallback: (postMessage: string) => void
+    updateNewPostTextCallback: (newText: string) => void
+    addMessageCallback: (newMessageText: string) => void
+    updateNewMessageTextCallback: (newText: string) => void
 }
 
 const App: FC<AppPropsType> = (props) => {
@@ -23,13 +26,17 @@ const App: FC<AppPropsType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className="app_wrapper_content">
-                        <Route render={()=><Profile state={props.state.profilePage}
-                                                    addPostCallback={props.addPostCallback}
-                        />} path='/Profile'/>
-                        <Route render={()=><Dialogs state={props.state.dialogsPage}/>} path='/Dialogs/'/>
-                        <Route component={News} path='/News'/>
-                        <Route component={Music} path='/Music'/>
-                        <Route component={Settings} path='/Settings'/>
+                    <Route render={() => <Profile state={props.state.profilePage}
+                                                  addPostCallback={props.addPostCallback}
+                                                  updateNewPostTextCallback={props.updateNewPostTextCallback}
+                    />} path='/Profile'/>
+                    <Route render={() => <Dialogs state={props.state.dialogsPage}
+                                                  addMessageCallback={props.addMessageCallback}
+                                                  updateNewMessageTextCallback={props.updateNewMessageTextCallback}
+                    />} path='/Dialogs/'/>
+                    <Route component={News} path='/News'/>
+                    <Route component={Music} path='/Music'/>
+                    <Route component={Settings} path='/Settings'/>
                 </div>
             </div>
         </BrowserRouter>
