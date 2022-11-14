@@ -34,11 +34,13 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
 
     return (
         <div className={s.postsWrap}>
-            <textarea onChange={onPostChange}
+            <textarea className={s.postsTextArea}
+                      onChange={onPostChange}
                       ref={newPostElement}
                       value={props.newPostText}></textarea>
-            <button onClick={addPost}>Add post</button>
-            <div>My posts</div>
+            <button className={s.postsButton}
+                    onClick={addPost}>Add post</button>
+            <h3>My posts</h3>
             {postsElements}
         </div>
     );

@@ -8,7 +8,7 @@ type PostPropsType = {
 
 export const Post = (props: PostPropsType) => {
     return (
-        <div>
+        <div className={s.post_wrap}>
             <div className={s.post_item}>{props.message}</div>
             <span>Likes {props.likes}</span>
         </div>
