@@ -1,0 +1,19 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    padding: 10px;
+}
+
+.dialogsItem {
+    display: flex;
+    align-items: center;
+    padding-bottom: 5px;
+}
+.dialogsItem a{
+    text-decoration: none;
+}
+
+.dialogsImg {
+    width: 30px;
+    height: 30px;
+}

@@ -3,7 +3,15 @@
     grid-template-columns: 2fr 10fr;
     padding: 10px;
 }
+.messages {
+    display: flex;
+    flex-direction: column;
+}
 
-.dialogsItemActive {
-    color: #f05fce;
+.messages_textArea {
+    align-self: flex-start;
+}
+
+.messages_button {
+    align-self: flex-start;
 }

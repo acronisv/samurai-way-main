@@ -1,0 +1,16 @@
+.postsWrap {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.postsTextArea {
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.postsButton {
+    width: 100px;
+    height: 30px;
+    margin-bottom: 30px;
+}

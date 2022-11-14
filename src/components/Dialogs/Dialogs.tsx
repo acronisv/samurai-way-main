@@ -1,47 +1,30 @@
-import React from 'react';
+import React, {FC} from 'react';
 import s from './Dialogs.module.css'
-import {NavLink} from "react-router-dom";
+import {Dialog} from "./DialogItem/DialogItem";
+import {Message} from "./Message/Message";
+import {ActionsType, MessagesPageType} from "../../redux/state";
+import {AddMessageAC, UpdateNewMessageTextAC} from "../../redux/dialogs-reducer";
 
-type MessagePropsType = {
-    message: string
+type DialogsPropsType = {
+    state: MessagesPageType
+    dispatch: (action: ActionsType) => void
 }
 
-type DialogPropsType = {
-    name: string
-    id: number
-}
+export const Dialogs: FC<DialogsPropsType> = (props) => {
+    const dialogsElements = props.state.dialogs.map((el) => <Dialog name={el.name} id={el.id}/>)
+    const messagesElements = props.state.messages.map((el) => (<Message message={el.message}/>))
 
-const dialogs = [
-    {id: 1, name: 'Walter'},
-    {id: 2, name: 'John'},
-    {id: 3, name: 'Jorge'},
-    {id: 4, name: 'Pete'}
-]
-
-const messages = [
-    {id: 1, message: 'Hello'},
-    {id: 1, message: 'What\'s up?'},
-    {id: 1, message: 'Damn good'},
-]
-
-const dialogsElements = dialogs.map((el) => <Dialog name={el.name} id={el.id}/>)
-const messagesElements = messages.map((el) => (<Message message={el.message}/>))
-
-export const Dialog = (props: DialogPropsType) => {
-    return (
-        <div className={s.dialogsItem + ' ' + s.dialogsItemActive}>
-            <NavLink to={`/Dialogs/${props.id}`}>{props.name}</NavLink>
-        </div>
-    );
-};
-
-const Message = (props: MessagePropsType) => {
-    return (
-        <div className={s.message}>{props.message}</div>
-    )
-}
-
-export const Dialogs = () => {
+    const newMessageRef = React.createRef<HTMLTextAreaElement>()
+    const addMessage = () => {
+        if (newMessageRef.current?.value) {
+            props.dispatch(AddMessageAC(newMessageRef.current.value))
+        }
+    }
+    const onMessageChange = () => {
+        if (newMessageRef.current?.value) {
+            props.dispatch(UpdateNewMessageTextAC(newMessageRef.current.value))
+        }
+    }
     return (
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
@@ -49,6 +32,12 @@ export const Dialogs = () => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
+                <textarea
+                    onChange={onMessageChange}
+                    value={props.state.newMessageText}
+                    ref={newMessageRef}
+                    className={s.messages_textArea}></textarea>
+                <button onClick={addMessage} className={s.messages_button}>Add message</button>
             </div>
         </div>
     );
