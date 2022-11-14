@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD_POST'
+const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
+const ADD_MESSAGE = 'ADD_MESSAGE'
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
+
 export type DialogsType = {
     id: number
     name: string
@@ -34,16 +39,15 @@ export type StoreType = {
     _state: StateType
     getState: () => StateType,
     _callSubscriber: () => void,
-    addMessage: (newMessageText: string) => void
-    updateNewMessageText: (newText: string) => void
     subscribe: (observer: () => void) => void
-    dispatch: (action: any)=>void
+    dispatch: (action: ActionsType) => void
 }
 
-export type DispatchPropsType = {
-    type: string
-    text: string
-}
+export type ActionsType =
+    ReturnType<typeof AddPostAC>
+    | ReturnType<typeof UpdateNewPostTextAC>
+    | ReturnType<typeof AddMessageAC>
+    | ReturnType<typeof UpdateNewMessageTextAC>
 
 export const store: StoreType = {
     _state: {
@@ -78,21 +82,8 @@ export const store: StoreType = {
     subscribe(observer: () => void) {
         this._callSubscriber = observer
     },
-    addMessage(newMessageText: string) {
-        const newMessage = {
-            id: new Date().getTime(),
-            message: newMessageText
-        }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._callSubscriber()
-    },
-    updateNewMessageText(newText: string) {
-        this._state.dialogsPage.newMessageText = newText
-        this._callSubscriber()
-    },
-
     dispatch(action) {
-        if (action.type === 'ADD_POST') {
+        if (action.type === ADD_POST) {
             const newPost: PostsType = {
                 id: new Date().getTime(),
                 message: action.postMessage,
@@ -102,9 +93,39 @@ export const store: StoreType = {
             this._state.profilePage.posts.push(newPost)
             this._state.profilePage.newPostText = ''
             this._callSubscriber()
-        } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostText = action.newText
+            this._callSubscriber()
+        } else if (action.type === ADD_MESSAGE) {
+            const newMessage = {
+                id: new Date().getTime(),
+                message: action.newMessageText
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._callSubscriber()
+        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+            this._state.dialogsPage.newMessageText = action.newText
             this._callSubscriber()
         }
     }
 }
+
+export const AddPostAC = (postMessage: string) => ({
+    type: ADD_POST,
+    postMessage: postMessage
+}) as const
+
+export const UpdateNewPostTextAC = (newText: string) => ({
+    type: UPDATE_NEW_POST_TEXT,
+    newText: newText
+}) as const
+
+export const AddMessageAC = (newMessageText: string) => ({
+    type: ADD_MESSAGE,
+    newMessageText: newMessageText
+}) as const
+
+export const UpdateNewMessageTextAC = (newText: string) => ({
+    type: UPDATE_NEW_MESSAGE_TEXT,
+    newText: newText
+}) as const

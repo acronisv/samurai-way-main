@@ -8,13 +8,11 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {DispatchPropsType, StateType} from "./redux/state";
+import {ActionsType, StateType} from "./redux/state";
 
 type AppPropsType = {
     state: StateType,
-    dispatch: (AC: DispatchPropsType) => void
-    addMessageCallback: (newMessageText: string) => void
-    updateNewMessageTextCallback: (newText: string) => void
+    dispatch: (action: ActionsType) => void
 }
 
 const App: FC<AppPropsType> = (props) => {
@@ -29,8 +27,7 @@ const App: FC<AppPropsType> = (props) => {
                                                   dispatch={props.dispatch}
                     />} path='/Profile'/>
                     <Route render={() => <Dialogs state={props.state.dialogsPage}
-                                                  addMessageCallback={props.addMessageCallback}
-                                                  updateNewMessageTextCallback={props.updateNewMessageTextCallback}
+                                                  dispatch={props.dispatch}
                     />} path='/Dialogs/'/>
                     <Route component={News} path='/News'/>
                     <Route component={Music} path='/Music'/>
