@@ -33,12 +33,16 @@ export type StateType = {
 export type StoreType = {
     _state: StateType
     getState: () => StateType,
-    renderEntireTree: () => void,
-    addPost: (postMessage: string) => void
-    updateNewPostText: (newText: string) => void
+    _callSubscriber: () => void,
     addMessage: (newMessageText: string) => void
     updateNewMessageText: (newText: string) => void
     subscribe: (observer: () => void) => void
+    dispatch: (action: any)=>void
+}
+
+export type DispatchPropsType = {
+    type: string
+    text: string
 }
 
 export const store: StoreType = {
@@ -68,23 +72,11 @@ export const store: StoreType = {
     getState() {
         return this._state
     },
-    renderEntireTree() {
+    _callSubscriber() {
         console.log('state changed')
     },
-    addPost(postMessage: string) {
-        const newPost: PostsType = {
-            id: new Date().getTime(),
-            message: postMessage,
-            likes: 0
-        }
-        console.log(this._state)
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this.renderEntireTree()
-    },
-    updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText
-        this.renderEntireTree()
+    subscribe(observer: () => void) {
+        this._callSubscriber = observer
     },
     addMessage(newMessageText: string) {
         const newMessage = {
@@ -92,13 +84,27 @@ export const store: StoreType = {
             message: newMessageText
         }
         this._state.dialogsPage.messages.push(newMessage)
-        this.renderEntireTree()
+        this._callSubscriber()
     },
     updateNewMessageText(newText: string) {
         this._state.dialogsPage.newMessageText = newText
-        this.renderEntireTree()
+        this._callSubscriber()
     },
-    subscribe(observer: () => void) {
-        this.renderEntireTree = observer
+
+    dispatch(action) {
+        if (action.type === 'ADD_POST') {
+            const newPost: PostsType = {
+                id: new Date().getTime(),
+                message: action.postMessage,
+                likes: 0
+            }
+            console.log(this._state)
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._callSubscriber()
+        } else if (action.type === 'UPDATE_NEW_POST_TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._callSubscriber()
+        }
     }
 }

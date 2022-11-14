@@ -8,12 +8,11 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {StateType} from "./redux/state";
+import {DispatchPropsType, StateType} from "./redux/state";
 
 type AppPropsType = {
     state: StateType,
-    addPostCallback: (postMessage: string) => void
-    updateNewPostTextCallback: (newText: string) => void
+    dispatch: (AC: DispatchPropsType) => void
     addMessageCallback: (newMessageText: string) => void
     updateNewMessageTextCallback: (newText: string) => void
 }
@@ -27,8 +26,7 @@ const App: FC<AppPropsType> = (props) => {
                 <Navbar/>
                 <div className="app_wrapper_content">
                     <Route render={() => <Profile state={props.state.profilePage}
-                                                  addPostCallback={props.addPostCallback}
-                                                  updateNewPostTextCallback={props.updateNewPostTextCallback}
+                                                  dispatch={props.dispatch}
                     />} path='/Profile'/>
                     <Route render={() => <Dialogs state={props.state.dialogsPage}
                                                   addMessageCallback={props.addMessageCallback}

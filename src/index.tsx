@@ -7,8 +7,7 @@ import App from "./App";
 const renderEntireTree = () => {
     ReactDOM.render(
         <App state={store.getState()}
-             addPostCallback={store.addPost.bind(store)}
-             updateNewPostTextCallback={store.updateNewPostText.bind(store)}
+             dispatch={store.dispatch.bind(store)}
              addMessageCallback={store.addMessage.bind(store)}
              updateNewMessageTextCallback={store.updateNewMessageText.bind(store)}/>,
         document.getElementById('root')
