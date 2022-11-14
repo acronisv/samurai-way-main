@@ -1,7 +1,10 @@
-const ADD_POST = 'ADD_POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
-const ADD_MESSAGE = 'ADD_MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
+import {AddPostAC, ProfileReducer, UpdateNewPostTextAC} from "./profile-reducer";
+import {AddMessageAC, DialogsReducer, UpdateNewMessageTextAC} from "./dialogs-reducer";
+
+export const ADD_POST = 'ADD_POST'
+export const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
+export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
 
 export type DialogsType = {
     id: number
@@ -83,49 +86,8 @@ export const store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost: PostsType = {
-                id: new Date().getTime(),
-                message: action.postMessage,
-                likes: 0
-            }
-            console.log(this._state)
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText
-            this._callSubscriber()
-        } else if (action.type === ADD_MESSAGE) {
-            const newMessage = {
-                id: new Date().getTime(),
-                message: action.newMessageText
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-            this._state.dialogsPage.newMessageText = action.newText
-            this._callSubscriber()
-        }
+        this._state.profilePage = ProfileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = DialogsReducer(this._state.dialogsPage, action)
+        this._callSubscriber()
     }
 }
-
-export const AddPostAC = (postMessage: string) => ({
-    type: ADD_POST,
-    postMessage: postMessage
-}) as const
-
-export const UpdateNewPostTextAC = (newText: string) => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: newText
-}) as const
-
-export const AddMessageAC = (newMessageText: string) => ({
-    type: ADD_MESSAGE,
-    newMessageText: newMessageText
-}) as const
-
-export const UpdateNewMessageTextAC = (newText: string) => ({
-    type: UPDATE_NEW_MESSAGE_TEXT,
-    newText: newText
-}) as const
