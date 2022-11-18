@@ -1,16 +1,13 @@
 import React, {FC} from 'react';
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {
-    ActionsType,
-    PostsType
-} from "../../../redux/store";
-import {AddPostAC, UpdateNewPostTextAC} from "../../../redux/profile-reducer";
+import {PostsType} from "../../../redux/store";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    dispatch: (action: ActionsType) => void
     newPostText: string
+    updateNewPostText: (text: string) => void
+    addPost: (text: string) => void
 }
 
 export const MyPosts: FC<MyPostsPropsType> = (props) => {
@@ -19,15 +16,15 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
 
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    const addPost = () => {
+    const onAddPost = () => {
         if (newPostElement.current) {
-            props.dispatch(AddPostAC(newPostElement.current?.value))
+            props.addPost(newPostElement.current?.value)
         }
     }
 
     const onPostChange = () => {
         if (newPostElement.current) {
-            props.dispatch(UpdateNewPostTextAC(newPostElement.current?.value))
+            props.updateNewPostText(newPostElement.current?.value)
         }
     }
 
@@ -38,7 +35,8 @@ export const MyPosts: FC<MyPostsPropsType> = (props) => {
                       ref={newPostElement}
                       value={props.newPostText}></textarea>
             <button className={s.postsButton}
-                    onClick={addPost}>Add post</button>
+                    onClick={onAddPost}>Add post
+            </button>
             <h3>My posts</h3>
             {postsElements}
         </div>

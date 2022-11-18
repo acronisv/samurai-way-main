@@ -38,21 +38,20 @@ export type StateType = {
     dialogsPage: MessagesPageType
 }
 
-export type StoreType = {
-    _state: StateType
-    getState: () => StateType,
-    _callSubscriber: () => void,
-    subscribe: (observer: () => void) => void
-    dispatch: (action: ActionsType) => void
-}
-
 export type ActionsType =
     ReturnType<typeof AddPostAC>
     | ReturnType<typeof UpdateNewPostTextAC>
     | ReturnType<typeof AddMessageAC>
     | ReturnType<typeof UpdateNewMessageTextAC>
 
-export const store: StoreType = {
+type OldStoreType = {
+    _state: StateType
+    getState: () => StateType,
+    _callSubscriber: () => void,
+    subscribe: (observer: () => void) => void
+    dispatch: (action: ActionsType) => void
+}
+const store: OldStoreType = {
     _state: {
         profilePage: {
             posts: [

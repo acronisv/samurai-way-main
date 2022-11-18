@@ -2,27 +2,27 @@ import React, {FC} from 'react';
 import s from './Dialogs.module.css'
 import {Dialog} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsType, MessagesPageType} from "../../redux/store";
-import {AddMessageAC, UpdateNewMessageTextAC} from "../../redux/dialogs-reducer";
+import {MessagesPageType} from "../../redux/store";
 
 type DialogsPropsType = {
-    state: MessagesPageType
-    dispatch: (action: ActionsType) => void
+    dialogsPage: MessagesPageType
+    addMessage: (text: string) => void
+    updateMessageText: (text: string) => void
 }
 
 export const Dialogs: FC<DialogsPropsType> = (props) => {
-    const dialogsElements = props.state.dialogs.map((el) => <Dialog name={el.name} id={el.id}/>)
-    const messagesElements = props.state.messages.map((el) => (<Message message={el.message}/>))
+    const dialogsElements = props.dialogsPage.dialogs.map((el) => <Dialog name={el.name} id={el.id}/>)
+    const messagesElements = props.dialogsPage.messages.map((el) => (<Message message={el.message}/>))
 
     const newMessageRef = React.createRef<HTMLTextAreaElement>()
     const addMessage = () => {
         if (newMessageRef.current?.value) {
-            props.dispatch(AddMessageAC(newMessageRef.current.value))
+            props.addMessage(newMessageRef.current.value)
         }
     }
     const onMessageChange = () => {
         if (newMessageRef.current?.value) {
-            props.dispatch(UpdateNewMessageTextAC(newMessageRef.current.value))
+            props.updateMessageText(newMessageRef.current.value)
         }
     }
     return (
@@ -34,7 +34,7 @@ export const Dialogs: FC<DialogsPropsType> = (props) => {
                 {messagesElements}
                 <textarea
                     onChange={onMessageChange}
-                    value={props.state.newMessageText}
+                    value={props.dialogsPage.newMessageText}
                     ref={newMessageRef}
                     className={s.messages_textArea}></textarea>
                 <button onClick={addMessage} className={s.messages_button}>Add message</button>
