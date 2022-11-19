@@ -11,7 +11,7 @@ import {StoreType} from "./redux/redux-store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType = {
-    store: StoreType
+     store: StoreType
 }
 
 const App: FC<AppPropsType> = (props) => {
@@ -22,8 +22,7 @@ const App: FC<AppPropsType> = (props) => {
                 <Header/>
                 <Navbar/>
                 <div className="app_wrapper_content">
-                    <Route render={() => <Profile store={props.store}
-                    />} path='/Profile'/>
+                    <Route render={() => <Profile/>} path='/Profile'/>
                     <Route render={() => <DialogsContainer store={props.store}
                     />} path='/Dialogs/'/>
                     <Route component={News} path='/News'/>
