@@ -2,10 +2,10 @@ import React, {FC} from 'react';
 import s from './Dialogs.module.css'
 import {Dialog} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {MessagesPageType} from "../../redux/store";
+import {DialogsPageStateType} from "../../redux/dialogs-reducer";
 
 type DialogsPropsType = {
-    dialogsPage: MessagesPageType
+    dialogsPage: DialogsPageStateType
     addMessage: (text: string) => void
     updateMessageText: (text: string) => void
 }
