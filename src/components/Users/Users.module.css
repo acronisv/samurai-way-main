@@ -1,0 +1,7 @@
+.user_avatar {
+    width: 30px;
+}
+.users_wrap {
+    display: flex;
+    padding-bottom: 10px;
+}
