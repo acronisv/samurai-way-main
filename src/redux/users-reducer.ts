@@ -2,37 +2,33 @@ import {ActionsType} from "./redux-store";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
-const SET_USERS ='SET_USERS'
+const SET_USERS = 'SET_USERS'
 
 export type UsersPageStateType = {
+    name: string
     id: number
-    photoUrl: string
+    uniqueUrlName: null | string
+    photos: {
+        small: null | string
+        large: null | string
+    }
+    status: null | string
     followed: boolean
-    fullName: string
-    status: string
-    location: UsersLocationType
 }
-type UsersLocationType = {
-    city: string
-    country: string
+type initialStateType = {
+    users: UsersPageStateType[]
 }
-
-const initialState = {
-    users: [
-        {id: 1, photoUrl:'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png', followed:false, fullName: 'Igor', status: 'Chill', location: {city: 'Msk', country: 'Russia'}},
-        {id: 2, photoUrl:'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png', followed:true, fullName: 'Walter', status: 'Chill', location: {city: 'Albuquerque', country: 'USA'}},
-        {id: 3, photoUrl:'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png', followed:true, fullName: 'Danny', status: 'Busy', location: {city: 'Tokyo', country: 'Japan'}},
-        {id: 4, photoUrl:'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png',  followed:false, fullName: 'John', status: 'Hard working', location: {city: 'Brisbane', country: 'Australia'}}
-    ]
+const initialState: initialStateType = {
+    users: []
 
 }
 
-export const UsersReducer = (state = initialState, action: ActionsType) => {
+export const UsersReducer = (state: initialStateType = initialState, action: ActionsType): initialStateType => {
     switch (action.type) {
         case FOLLOW:
-            return {...state, users: state.users.map(u => u.id===action.userId ? {...u, followed: true}: u)}
+            return {...state, users: state.users.map(u => u.id === action.userId ? {...u, followed: true} : u)}
         case UNFOLLOW:
-            return {...state, users: state.users.map(u => u.id===action.userId ? {...u, followed: false}: u)}
+            return {...state, users: state.users.map(u => u.id === action.userId ? {...u, followed: false} : u)}
         case SET_USERS:
             return {...state, users: [...state.users, ...action.users]}
         default:
