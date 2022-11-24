@@ -10,16 +10,20 @@ type UsersPropsType = {
     setUsers: (users: Array<UsersPageStateType>) => void
 }
 export const Users = (props: UsersPropsType) => {
+
     const defaultPhotoUrl = 'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png'
 
-    if (props.users.length === 0) {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-            props.setUsers(response.data.items)
-        })
+    const getUsers = () => {
+        if (props.users.length === 0) {
+            axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+                props.setUsers(response.data.items)
+            })
+        }
     }
 
     return (
         <div>
+            <button onClick={getUsers}>Get users</button>
             {props.users.map(u =>
                 <div className={s.users_wrap} key={u.id}>
                     <div>
