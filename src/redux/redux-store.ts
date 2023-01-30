@@ -1,5 +1,5 @@
 import {combineReducers, createStore, Store} from "redux";
-import {AddPostAC, ProfileReducer, UpdateNewPostTextAC} from "./profile-reducer";
+import {AddPostAC, ProfileReducer, setUserProfile, UpdateNewPostTextAC} from "./profile-reducer";
 import {AddMessageAC, DialogsReducer, UpdateNewMessageTextAC} from "./dialogs-reducer";
 import {
     follow,
@@ -25,6 +25,7 @@ export type ActionsType =
     | ReturnType<typeof setCurrentPage>
     | ReturnType<typeof setTotalUsersCount>
     | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof setUserProfile>
 
 let rootReducer = combineReducers({
     profilePage: ProfileReducer,
@@ -33,3 +34,7 @@ let rootReducer = combineReducers({
 })
 
 export let store = createStore(rootReducer)
+
+
+// @ts-ignore
+window.store = store
