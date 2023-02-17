@@ -11,8 +11,8 @@ type DialogsPropsType = {
 }
 
 export const Dialogs: FC<DialogsPropsType> = (props) => {
-    const dialogsElements = props.dialogsPage.dialogs.map((el) => <Dialog key={el.id} name={el.name} id={el.id}/>)
-    const messagesElements = props.dialogsPage.messages.map((el) => (<Message key={el.id} message={el.message}/>))
+    const dialogsElements = props.dialogsPage.dialogs.map((el, i) => <Dialog key={i} name={el.name} id={el.id}/>)
+    const messagesElements = props.dialogsPage.messages.map((el, i) => (<Message key={i} message={el.message}/>))
 
     const newMessageRef = React.createRef<HTMLTextAreaElement>()
     const addMessage = () => {

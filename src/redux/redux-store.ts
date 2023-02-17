@@ -1,15 +1,14 @@
 import {combineReducers, createStore, Store} from "redux";
-import {AddPostAC, ProfileReducer, UpdateNewPostTextAC} from "./profile-reducer";
+import {AddPostAC, ProfileReducer, setUserProfile, UpdateNewPostTextAC} from "./profile-reducer";
 import {AddMessageAC, DialogsReducer, UpdateNewMessageTextAC} from "./dialogs-reducer";
 import {
-    followAC,
-    setCurrentPageAC,
-    setTotalUsersCountAC,
-    setUsersAC,
-    toggleIsFetchingAC,
-    unfollowAC,
+    follow,
+    setCurrentPage,
+    setTotalUsersCount,
+    setUsers, toggleIsFetching, unfollow,
     UsersReducer
 } from "./users-reducer";
+import {AuthReducer, setAuthUserData} from "./auth-reducer";
 
 //export type RootState = typeof rootReducer
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -21,17 +20,24 @@ export type ActionsType =
     | ReturnType<typeof UpdateNewPostTextAC>
     | ReturnType<typeof AddMessageAC>
     | ReturnType<typeof UpdateNewMessageTextAC>
-    | ReturnType<typeof followAC>
-    | ReturnType<typeof unfollowAC>
-    | ReturnType<typeof setUsersAC>
-    | ReturnType<typeof setCurrentPageAC>
-    | ReturnType<typeof setTotalUsersCountAC>
-    | ReturnType<typeof toggleIsFetchingAC>
+    | ReturnType<typeof follow>
+    | ReturnType<typeof unfollow>
+    | ReturnType<typeof setUsers>
+    | ReturnType<typeof setCurrentPage>
+    | ReturnType<typeof setTotalUsersCount>
+    | ReturnType<typeof toggleIsFetching>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setAuthUserData>
 
 let rootReducer = combineReducers({
     profilePage: ProfileReducer,
     dialogsPage: DialogsReducer,
-    usersPage: UsersReducer
+    usersPage: UsersReducer,
+    auth: AuthReducer
 })
 
 export let store = createStore(rootReducer)
+
+
+// @ts-ignore
+window.store = store

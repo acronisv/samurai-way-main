@@ -2,3 +2,11 @@
     grid-area: h;
     background: #454acb;
 }
+
+.login_wrap {
+    float: right;
+}
+
+.login_wrap a{
+    color: white;
+}
