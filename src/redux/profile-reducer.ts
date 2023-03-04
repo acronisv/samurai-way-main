@@ -1,4 +1,6 @@
 import {ActionsType} from "./redux-store";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 export type PostsType = {
     id: number
@@ -85,3 +87,11 @@ export const setUserProfile = (profile: ProfileType) => ({
     type: SET_USER_PROFILE,
     profile
 }) as const
+
+export const getProfileTC = (userId:string) => {
+    return (dispatch: Dispatch) => {
+        usersAPI.getProfile(userId).then(response => {
+            dispatch(setUserProfile(response.data))
+        })
+    }
+}

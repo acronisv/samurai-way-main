@@ -8,9 +8,10 @@ type UsersPropsType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
     onPageChanged: (page: number) => void
+    followingInProgress: []
+    followUser: (userId: number)=>void
+    unfollowUser: (userId: number)=>void
 }
 
 export const Users = (props: UsersPropsType) => {
@@ -31,7 +32,7 @@ export const Users = (props: UsersPropsType) => {
             {props.users.map(u =>
                 <div className={s.users_wrap} key={u.id}>
                     <div>
-                        <NavLink to={'/profile/'+u.id}>
+                        <NavLink to={'/profile/' + u.id}>
                             <img className={s.user_avatar}
                                  src={u.photos.small != null ? u.photos.small : 'https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png'}
                                  alt="avatar"/>
@@ -39,8 +40,12 @@ export const Users = (props: UsersPropsType) => {
 
                         <span>{u.name}</span>
                         {u.followed
-                            ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button>
-                            : <button onClick={() => props.follow(u.id)}>Follow</button>}
+                            ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.unfollowUser(u.id)
+                            }}>Unfollow</button>
+                            : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.followUser(u.id)
+                            }}>Follow</button>}
                     </div>
                     <div>
                         <div>{u.status}</div>
