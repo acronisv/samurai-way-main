@@ -1,12 +1,12 @@
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {
-    follow, followUserTC, getUsersTC,
+    followUserTC, getUsersTC,
     setCurrentPage,
     setTotalUsersCount,
-    setUsers, toggleFollowingProgress,
+    setUsers,
     toggleIsFetching,
-    unfollow, unfollowUserTC
+    unfollowUserTC
 } from "../../redux/users-reducer";
 import {UsersPageStateType} from "../../redux/users-reducer";
 import React from "react";
@@ -27,13 +27,10 @@ type UsersAPIPropsType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
     setUsers: (users: Array<UsersPageStateType>) => void
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (count: number) => void
     toggleIsFetching: (isFetching: boolean) => void
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
     isFetching: boolean
     followingInProgress: []
     getUsersTC: (currentPage: number, pageSize: number)=>void
@@ -62,11 +59,8 @@ class UsersContainer extends React.Component<UsersAPIPropsType> {
                    pageSize={this.props.pageSize}
                    totalUsersCount={this.props.totalUsersCount}
                    currentPage={this.props.currentPage}
-                   follow={this.props.follow}
-                   unfollow={this.props.unfollow}
                    onPageChanged={this.onPageChanged}
                    followingInProgress={this.props.followingInProgress}
-                   toggleFollowingProgress={this.props.toggleFollowingProgress}
                    followUser={this.props.followUserTC}
                    unfollowUser={this.props.unfollowUserTC}
             />
@@ -86,13 +80,10 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
 }
 
 export default connect(mapStateToProps, {
-    follow,
-    unfollow,
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
     toggleIsFetching,
-    toggleFollowingProgress,
     getUsersTC,
     followUserTC,
     unfollowUserTC
