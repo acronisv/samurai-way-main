@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore, Store} from "redux";
-import {AddPostAC, ProfileReducer, setUserProfile, UpdateNewPostTextAC} from "./profile-reducer";
+import {AddPostAC, ProfileReducer, setStatus, setUserProfile, UpdateNewPostTextAC} from "./profile-reducer";
 import {AddMessageAC, DialogsReducer, UpdateNewMessageTextAC} from "./dialogs-reducer";
 import {
     follow,
@@ -30,6 +30,7 @@ export type ActionsType =
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof toggleFollowingProgress>
+    | ReturnType<typeof setStatus>
 
 let rootReducer = combineReducers({
     profilePage: ProfileReducer,
