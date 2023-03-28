@@ -12,6 +12,8 @@ import {UsersPageStateType} from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type mapStateToPropsType = {
     users: Array<UsersPageStateType>
@@ -33,9 +35,9 @@ type UsersAPIPropsType = {
     toggleIsFetching: (isFetching: boolean) => void
     isFetching: boolean
     followingInProgress: []
-    getUsersTC: (currentPage: number, pageSize: number)=>void
-    followUserTC: (userId: number)=>void
-    unfollowUserTC: (userId: number)=>void
+    getUsersTC: (currentPage: number, pageSize: number) => void
+    followUserTC: (userId: number) => void
+    unfollowUserTC: (userId: number) => void
 }
 
 class UsersContainer extends React.Component<UsersAPIPropsType> {
@@ -79,13 +81,15 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     }
 }
 
-export default connect(mapStateToProps, {
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    toggleIsFetching,
-    getUsersTC,
-    followUserTC,
-    unfollowUserTC
-})(UsersContainer)
+export default compose<React.ComponentType>(connect(mapStateToProps, {
+        setUsers,
+        setCurrentPage,
+        setTotalUsersCount,
+        toggleIsFetching,
+        getUsersTC,
+        followUserTC,
+        unfollowUserTC
+    }),
+    withAuthRedirect
+)(UsersContainer)
 
