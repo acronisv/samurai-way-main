@@ -2,18 +2,23 @@ import React from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {
-    getProfileTC,
-    ProfileType
+    getProfileTC, getStatusTC,
+    ProfileType, updateStatusTC
 } from "../../redux/profile-reducer";
 import {AppStateType} from "../../redux/redux-store";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 type MapStateToPropsType = {
+    status: string
     profile: ProfileType
     isAuth: boolean
 }
 type MapDispatchToPropsType = {
     getProfileTC: (user:string)=>void
+    getStatusTC: (user:string)=>void
+    updateStatusTC: (user:string)=>void
 }
 
 type PathParamsType = {
@@ -27,24 +32,32 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = '2'
+            userId = '16459'
         }
         this.props.getProfileTC(userId)
+        this.props.getStatusTC(userId)
     }
 
     render() {
-        if (!this.props.isAuth) return <Redirect to={'/login'}/>
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateStatus={this.props.updateStatusTC}
+            />
         )
     }
 }
 
+
 let mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+    status: state.profilePage.status,
     profile: state.profilePage.profile,
     isAuth: state.auth.isAuth
 })
+// let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
+// let withUrlDataContainerComponent = withRouter(AuthRedirectComponent)
+//
+// export default connect(mapStateToProps, {getProfileTC})(withUrlDataContainerComponent)
 
-let withUrlDataContainerComponent = withRouter(ProfileContainer)
-
-export default connect(mapStateToProps, {getProfileTC})(withUrlDataContainerComponent)
+export default compose<React.ComponentType>(connect(mapStateToProps, {getProfileTC, getStatusTC, updateStatusTC}),withRouter, withAuthRedirect)(ProfileContainer)

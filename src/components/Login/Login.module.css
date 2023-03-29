@@ -1,0 +1,11 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.error_message {
+    font-size: 14px;
+    color: rgba(158, 42, 42, 0.75);
+}
