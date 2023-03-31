@@ -8,10 +8,8 @@
     flex-direction: column;
 }
 
-.messages_textArea {
-    align-self: flex-start;
-}
-
-.messages_button {
-    align-self: flex-start;
+.messages .form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
 }

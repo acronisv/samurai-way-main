@@ -15,7 +15,6 @@ export type DialogsPageStateType = {
 }
 
 const ADD_MESSAGE = 'ADD_MESSAGE'
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
 
 const initialState = {
     messages: [
@@ -40,10 +39,6 @@ export const DialogsReducer = (state: DialogsPageStateType = initialState, actio
                 newMessageText: '',
                 messages: [...state.messages, {id: new Date().getTime(), message: action.newMessageText}]
             }
-        case UPDATE_NEW_MESSAGE_TEXT:
-            return {
-                ...state, newMessageText: action.newText
-            }
         default:
             return state
     }
@@ -51,9 +46,4 @@ export const DialogsReducer = (state: DialogsPageStateType = initialState, actio
 export const AddMessageAC = (newMessageText: string) => ({
     type: ADD_MESSAGE,
     newMessageText: newMessageText
-}) as const
-
-export const UpdateNewMessageTextAC = (newText: string) => ({
-    type: UPDATE_NEW_MESSAGE_TEXT,
-    newText: newText
 }) as const
