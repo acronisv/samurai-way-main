@@ -1,4 +1,4 @@
-import {ActionsType} from "./redux-store";
+import {ActionsType, AppThunk} from "./redux-store";
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
@@ -88,16 +88,16 @@ export const setStatus = (status: string) => ({
     status
 }) as const
 
-export const getStatusTC = (userId:string) => {
-    return (dispatch: Dispatch) => {
+export const getStatusTC = (userId:string):AppThunk => {
+    return (dispatch) => {
         profileAPI.getStatus(userId).then(response => {
             dispatch(setStatus(response.data))
         })
     }
 }
 
-export const updateStatusTC = (status:string) => {
-    return (dispatch: Dispatch) => {
+export const updateStatusTC = (status:string):AppThunk => {
+    return (dispatch: Dispatch<ActionsType>) => {
         profileAPI.updateStatus(status).then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setStatus(status))
@@ -106,8 +106,8 @@ export const updateStatusTC = (status:string) => {
     }
 }
 
-export const getProfileTC = (userId:string) => {
-    return (dispatch: Dispatch) => {
+export const getProfileTC = (userId:string):AppThunk => {
+    return (dispatch: Dispatch<ActionsType>) => {
         profileAPI.getProfile(userId).then(response => {
             dispatch(setUserProfile(response.data))
         })

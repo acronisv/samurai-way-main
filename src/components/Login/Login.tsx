@@ -5,6 +5,10 @@ import Checkbox from '@mui/material/Checkbox';
 import s from './Login.module.css'
 import Button from '@mui/material/Button';
 import {loginValidation, passwordValidation} from "../../utils/validators/validation";
+import {useDispatch, useSelector} from "react-redux";
+import {loginTC} from "../../redux/auth-reducer";
+import {AppStateType} from "../../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
 type Inputs = {
     login: string,
@@ -13,12 +17,19 @@ type Inputs = {
 };
 
 export const Login = () => {
+    const dispatch = useDispatch()
+    const isAuth = useSelector<AppStateType>(state => state.auth.isAuth)
     const {handleSubmit, control, reset, formState: {errors}} = useForm<Inputs>({
         mode: "onBlur"
     });
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         console.log(data)
+        dispatch(loginTC(data.login, data.password, data.remember))
         reset()
+    }
+
+    if (isAuth) {
+        return <Redirect to={'/Profile/'}/>
     }
     return (
         <div>
@@ -40,7 +51,7 @@ export const Login = () => {
                     <span className={s.error_message}>{errors.login.message || 'This field is required'}</span>}
                 <label htmlFor="password">Password </label>
                 <Controller
-                    render={({field}) => <Input {...field} error={!!errors.password}/>}
+                    render={({field}) => <Input {...field} type='password' error={!!errors.password}/>}
                     name="password"
                     control={control}
                     defaultValue=""
@@ -61,47 +72,3 @@ export const Login = () => {
         </div>
     );
 };
-
-// export const Login = () => {
-//     const {register, handleSubmit, watch, reset, formState: {errors}} = useForm<Inputs>({
-//         mode: "onBlur"
-//     });
-//     const onSubmit: SubmitHandler<Inputs> = (data) => {
-//         console.log(data)
-//         reset()
-//     }
-//     return (
-//         <div>
-//             <h2>Login</h2>
-//             <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-//                 {/* register your input into the hook by invoking the "register" function */}
-//                 <label htmlFor="login">Login</label>
-//                 <input {...register("login", {
-//                     required: true,
-//                     minLength: {
-//                         value: 3,
-//                         message: 'Login is too short'
-//                     }
-//                 })} />
-//                 {errors.login && <span>{errors.login.message || 'This field is required'}</span>}
-//
-//
-//                 <label htmlFor="password">Password </label>
-//                 <input {...register("password", {
-//                     required: true,
-//                     minLength: {
-//                         value: 3,
-//                         message: 'Password is too short'
-//                     }
-//                 })} />
-//                 {/* errors will return when field validation fails  */}
-//                 {errors.password && <span>{errors.password.message ||'This field is required'}</span>}
-//
-//                 <label htmlFor="Remember">Remember me
-//                     <input type="checkbox" {...register("remember", )} />
-//                 </label>
-//                 <input type="submit" value="Sign in"/>
-//             </form>
-//         </div>
-//     );
-// };

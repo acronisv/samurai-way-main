@@ -9,7 +9,7 @@ import {
     UsersReducer
 } from "./users-reducer";
 import {AuthReducer, setAuthUserData} from "./auth-reducer";
-import thunkMiddleware from "redux-thunk";
+import thunkMiddleware, {ThunkAction} from "redux-thunk";
 
 //export type RootState = typeof rootReducer
 export type AppStateType = ReturnType<typeof rootReducer>
@@ -29,6 +29,8 @@ export type ActionsType =
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof toggleFollowingProgress>
     | ReturnType<typeof setStatus>
+
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 
 let rootReducer = combineReducers({
     profilePage: ProfileReducer,
