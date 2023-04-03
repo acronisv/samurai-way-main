@@ -4,6 +4,7 @@ import Input from '@mui/material/Input';
 import Checkbox from '@mui/material/Checkbox';
 import s from './Login.module.css'
 import Button from '@mui/material/Button';
+import {loginValidation, passwordValidation} from "../../utils/validators/validation";
 
 type Inputs = {
     login: string,
@@ -15,13 +16,6 @@ export const Login = () => {
     const {handleSubmit, control, reset, formState: {errors}} = useForm<Inputs>({
         mode: "onBlur"
     });
-    const rules = {
-        required: true,
-        minLength: {
-            value: 3,
-            message: 'Login is too short'
-        }
-    }
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         console.log(data)
         reset()
@@ -40,7 +34,7 @@ export const Login = () => {
                     name="login"
                     control={control}
                     defaultValue=""
-                    rules={rules}
+                    rules={loginValidation}
                 />
                 {errors.login &&
                     <span className={s.error_message}>{errors.login.message || 'This field is required'}</span>}
@@ -50,7 +44,7 @@ export const Login = () => {
                     name="password"
                     control={control}
                     defaultValue=""
-                    rules={rules}
+                    rules={passwordValidation}
                 />
                 {errors.password &&
                     <span className={s.error_message}>{errors.password.message || 'This field is required'}</span>}
