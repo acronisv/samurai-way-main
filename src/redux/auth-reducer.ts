@@ -32,33 +32,48 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     data: {userId, email, login, isAuth}
 }) as const
 
-export const getAuthTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.me().then(response => {
-            if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data
-                dispatch(setAuthUserData(id, email, login, true))
-            }
-        })
+export const getAuthTC = (): AppThunk =>
+    async dispatch => {
+        const result = await authAPI.me()
+        if (result.data.resultCode === 0) {
+            let {id, email, login} = result.data.data
+            dispatch(setAuthUserData(id, email, login, true))
+        }
     }
-}
 
-export const loginTC = (login: string, password: string, remember: boolean): AppThunk => {
-    return (dispatch) => {
-        authAPI.login(login, password, remember).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(getAuthTC())
-            }
-        })
-    }
-}
 
-export const logoutTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.logout().then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false))
-            }
-        })
+export const loginTC = (login: string, password: string, remember: boolean): AppThunk =>
+    async dispatch => {
+        const result = await authAPI.login(login, password, remember)
+        if (result.data.resultCode === 0) {
+            dispatch(getAuthTC())
+        }
     }
-}
+
+// export const loginTC = (login: string, password: string, remember: boolean): AppThunk => {
+//     return (dispatch) => {
+//         authAPI.login(login, password, remember).then(response => {
+//             if (response.data.resultCode === 0) {
+//                 dispatch(getAuthTC())
+//             }
+//         })
+//     }
+// }
+
+export const logoutTC = (): AppThunk =>
+    async dispatch => {
+        const result = await authAPI.logout()
+        if (result.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false))
+        }
+    }
+
+// export const logoutTC = (): AppThunk => {
+//     return (dispatch) => {
+//         authAPI.logout().then(response => {
+//             if (response.data.resultCode === 0) {
+//                 dispatch(setAuthUserData(null, null, null, false))
+//             }
+//         })
+//     }
+// }

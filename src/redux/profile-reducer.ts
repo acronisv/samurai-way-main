@@ -1,5 +1,4 @@
 import {ActionsType, AppThunk} from "./redux-store";
-import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
 export type PostsType = {
@@ -88,28 +87,24 @@ export const setStatus = (status: string) => ({
     status
 }) as const
 
-export const getStatusTC = (userId:string):AppThunk => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId).then(response => {
-            dispatch(setStatus(response.data))
-        })
+export const getStatusTC = (userId: string): AppThunk =>
+    async dispatch => {
+        const result = await profileAPI.getStatus(userId)
+        dispatch(setStatus(result.data))
     }
-}
 
-export const updateStatusTC = (status:string):AppThunk => {
-    return (dispatch: Dispatch<ActionsType>) => {
-        profileAPI.updateStatus(status).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setStatus(status))
-            }
-        })
-    }
-}
 
-export const getProfileTC = (userId:string):AppThunk => {
-    return (dispatch: Dispatch<ActionsType>) => {
-        profileAPI.getProfile(userId).then(response => {
-            dispatch(setUserProfile(response.data))
-        })
+export const updateStatusTC = (status: string): AppThunk =>
+    async dispatch => {
+        const result = await profileAPI.updateStatus(status)
+        if (result.data.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     }
-}
+
+
+export const getProfileTC = (userId: string): AppThunk =>
+    async dispatch => {
+        const result = await profileAPI.getProfile(userId)
+        dispatch(setUserProfile(result.data))
+    }
