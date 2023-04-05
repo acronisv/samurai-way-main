@@ -13,11 +13,14 @@ import {Redirect} from "react-router-dom";
 type Inputs = {
     login: string,
     password: string,
-    remember: boolean
+    remember: boolean,
+    // customError: string
 };
 
 export const Login = () => {
     const dispatch = useDispatch()
+    const stopSubmit = useSelector<AppStateType>(state => state.auth.submitStopped)
+    const stopSubmitMessage = useSelector<AppStateType, string>(state => state.auth.stopSubmitMessage)
     const isAuth = useSelector<AppStateType>(state => state.auth.isAuth)
     const {handleSubmit, control, reset, formState: {errors}} = useForm<Inputs>({
         mode: "onBlur"
@@ -67,7 +70,20 @@ export const Login = () => {
                         render={({field}) => <Checkbox {...field} />}
                     />
                 </label>
+                {stopSubmit && <span className={s.error_message}>{stopSubmitMessage}</span>}
                 <Button type="submit" variant="contained">Sign in</Button>
+                {/*<Button type="submit" variant="contained" onClick={() => {*/}
+                {/*    stopSubmit &&*/}
+                {/*    setError(*/}
+                {/*        'customError',*/}
+                {/*        {*/}
+                {/*            type: 'custom', message: 'Something goes wrong'*/}
+                {/*        },*/}
+                {/*        {shouldFocus: true}*/}
+                {/*    )*/}
+                {/*}}>Sign in</Button>*/}
+                {/*{errors.customError &&*/}
+                {/*    <span className={s.error_message}>{errors.customError.message}</span>}*/}
             </form>
         </div>
     );

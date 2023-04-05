@@ -8,7 +8,7 @@ import {
     setUsers, toggleFollowingProgress, toggleIsFetching, unfollow,
     UsersReducer
 } from "./users-reducer";
-import {AuthReducer, setAuthUserData} from "./auth-reducer";
+import {AuthReducer, setAuthUserData, stopSubmit} from "./auth-reducer";
 import thunkMiddleware, {ThunkAction} from "redux-thunk";
 
 //export type RootState = typeof rootReducer
@@ -29,6 +29,7 @@ export type ActionsType =
     | ReturnType<typeof setAuthUserData>
     | ReturnType<typeof toggleFollowingProgress>
     | ReturnType<typeof setStatus>
+    | ReturnType<typeof stopSubmit>
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 
